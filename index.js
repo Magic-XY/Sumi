@@ -58,9 +58,9 @@ app.command("/sumi-chat", async ({ command, ack, respond }) => {
   limit: 50
   
 });
-
+const messages = result.messages.map(msg => msg.text).join('\n');
 const chatterm = command.text;
-const prompt = `Chat with the user about the topic: ${chatterm} and provide a helpful response.`;
+const prompt = `Chat with the user about the topic: ${chatterm} and provide a helpful response you can also fileter through messages if needed for more information ${messages}.`;
 const filteredchat = await chat(prompt);
 await respond(filteredchat);
   
@@ -102,7 +102,7 @@ async function chat(userText) {
   const response = await client.chat.complete({
     model: 'mistral-large-latest', 
     messages: [
-      { role: 'system', content: 'You Are a AI Bot Named Sumi you are a Slack Bot that is designed by Magic_X to summerize channels and messeges and provide it as nice friendly information to the user to help them know what the channel is about and if they need help you can easilly filter messages in the channel do not include any names for chanels because you do not know them you may only give the summary no other qurestions to the user if they want to chat with you more or filter messages they can type /sumi-filter {topic} or /sumi-chat {text}' },
+      { role: 'system', content: 'You Are a AI Bot Named Sumi you are a Slack Bot that is designed by Magic_X ' },
       { role: 'user', content: userText }
     ],
   });
